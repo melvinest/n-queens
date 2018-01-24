@@ -79,12 +79,24 @@
     //
     // test if a specific row on this board contains a conflict
     hasRowConflictAt: function(rowIndex) {
-      return false; // fixme
+      var row = this.get(rowIndex);
+      var counter = 0;
+      for (var i = 0; i < row.length; i++) {
+        if (row[i] === 1) {
+          counter++;
+        }
+      }
+      return counter > 1;
     },
 
-    // test if any rows on this board contain conflicts
     hasAnyRowConflicts: function() {
-      return false; // fixme
+      var boardSize = this.changed.n;
+      for (var i = 0; i < boardSize; i++) {
+        if (this.hasRowConflictAt(i)) {
+          return true;
+        }
+      }
+      return false; 
     },
 
 
@@ -94,12 +106,26 @@
     //
     // test if a specific column on this board contains a conflict
     hasColConflictAt: function(colIndex) {
-      return false; // fixme
+      var boardSize = this.changed.n;
+      var counter = 0;
+      for (var i = 0; i < boardSize; i++) {
+        if (this.get(i)[colIndex] === 1) {
+          counter++;
+        }
+      }
+      return counter > 1;
     },
 
     // test if any columns on this board contain conflicts
     hasAnyColConflicts: function() {
-      return false; // fixme
+
+      var boardSize = this.changed.n;
+      for (var i = 0; i < boardSize; i++) {
+        if (this.hasColConflictAt(i)) {
+          return true;
+        }
+      }
+      return false; 
     },
 
 
@@ -108,13 +134,41 @@
     // --------------------------------------------------------------
     //
     // test if a specific major diagonal on this board contains a conflict
-    hasMajorDiagonalConflictAt: function(majorDiagonalColumnIndexAtFirstRow) {
-      return false; // fixme
+    hasMajorDiagonalConflictAt: function(majorDiagonalColumnIndexAtFirstRow, startRow = 0) {
+      // get board size 
+      var boardSize = this.changed.n;
+      // column = input parameter
+      var column = majorDiagonalColumnIndexAtFirstRow;
+      // counter = 0;
+      var counter = 0;
+      // loop through the rows 
+      for (var i = startRow; i < boardSize; i++) {
+        if (this.get(i)[column] === 1) {
+          counter++;
+        }
+        column++;
+      }
+      return counter > 1;
+
     },
 
     // test if any major diagonals on this board contain conflicts
     hasAnyMajorDiagonalConflicts: function() {
-      return false; // fixme
+
+
+      var boardSize = this.changed.n;
+      
+      for (var i = 0; i < boardSize; i++) {
+        if (this.hasMajorDiagonalConflictAt(0, i)) {
+          return true;
+        }
+      }
+      for (var i = 0; i < boardSize; i++) {
+        if (this.hasMajorDiagonalConflictAt(i, 0)) {
+          return true;
+        }
+      }
+      return false;
     },
 
 
@@ -123,12 +177,39 @@
     // --------------------------------------------------------------
     //
     // test if a specific minor diagonal on this board contains a conflict
-    hasMinorDiagonalConflictAt: function(minorDiagonalColumnIndexAtFirstRow) {
-      return false; // fixme
+    hasMinorDiagonalConflictAt: function(minorDiagonalColumnIndexAtFirstRow, startRow = 0) {
+      var boardSize = this.changed.n;
+      // column = input parameter
+      var column = minorDiagonalColumnIndexAtFirstRow;
+      // counter = 0;
+      var counter = 0;
+      // loop through the rows 
+      for (var i = startRow; i < boardSize && column >= 0; i++) {
+        if (this.get(i)[column] === 1) {
+          counter++;
+        }
+        column--;
+      }
+      return counter > 1;
     },
 
     // test if any minor diagonals on this board contain conflicts
     hasAnyMinorDiagonalConflicts: function() {
+      // one loop keeps column same, and increments rows
+      // other loop keeps row the same, and decrements columns
+      
+      var boardSize = this.changed.n;
+      
+      for (var i = 0; i < boardSize; i++) {
+        if (this.hasMinorDiagonalConflictAt(boardSize - 1, i)) {
+          return true;
+        }
+      }
+      for (var i = boardSize - 1; i >= 0; i--) {
+        if (this.hasMinorDiagonalConflictAt(i, 0)) {
+          return true;
+        }
+      }
       return false; // fixme
     }
 
