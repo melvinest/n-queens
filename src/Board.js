@@ -205,6 +205,15 @@
       return false;
     }
 
+    // Time Complexity of Helper Functions:
+    // hasRowConflictAt - O(n)
+    // hasAnyRowConflicts - O(n^2)
+    // hasColConflictAt - O(n)
+    // hasAnyColConflicts - O(n^2)
+    // hasMajorDiagonalConflictAt - O(n)
+    // hasAnyMajorDiagonalConflicts - O(n^2)
+    // hasMinorDiagonalConflictAt - O(n)
+    // hasAnyMinorDiagonalConflicts - O(n^2)
     /*--------------------  End of Helper Functions  ---------------------*/
 
 
